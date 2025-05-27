@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel & Tourism</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('home') }}">Home</a></li>
+                <li><a href="{{ url_for('destinations') }}">Destinations</a></li>
+                <li><a href="{{ url_for('my_bookings') }}">My Bookings</a></li>
+                {% if 'username' in session %}
+                    <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                    <li><span>Welcome, {{ session['username'] }}</span></li>
+                {% else %}
+                    <li><a href="{{ url_for('login') }}">Login</a></li>
+                    <li><a href="{{ url_for('signup') }}">Signup</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    </header>
+    <main>
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="flash-messages">
+                {% for message in messages %}
+                    <p>{{ message }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+        {% endwith %}
+        {% block content %}
+        <section class="home-banner">
+            <div class="banner-text">
+                <h1>Welcome to Travel & Tourism</h1>
+                <p>Your journey to amazing destinations begins here. Discover, book, and travel with ease!</p>
+                <div class="banner-buttons">
+                    <a href="{{ url_for('signup') }}" class="button">Get Started</a>
+                    <a href="{{ url_for('destinations') }}" class="button secondary">Explore Destinations</a>
+                </div>
+            </div>
+        </section>
+        <section class="featured-destinations">
+            <h2>Featured Destinations</h2>
+            <div class="destination-grid">
+                {% for destination in destinations[:3] %}
+                <div class="card">
+                    <img src="{{ url_for('static', filename='images/' + destination['image']) }}" alt="{{ destination['name'] }}">
+                    <h2>{{ destination['name'] }}</h2>
+                    <p>{{ destination['description'] }}</p>
+                    <p><strong>Price:</strong> ${{ destination['price'] }}</p>
+                </div>
+                {% endfor %}
+            </div>
+            <a href="{{ url_for('destinations') }}" class="button">View All Destinations</a>
+        </section>
+        {% endblock %}
+    </main>
+    <footer>
+        <p>&copy; 2025 Travel & Tourism. All rights reserved.</p>
+    </footer>
+</body>
+</html>

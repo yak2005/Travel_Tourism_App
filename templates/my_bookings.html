@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="bookings-container">
+    <h1>My Bookings</h1>
+    {% if bookings %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Booking Date</th>
+                    <th>Destination</th>
+                    <th>Description</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for booking in bookings %}
+                <tr>
+                    <td>{{ booking['booking_date'] }}</td>
+                    <td>{{ booking['name'] }}</td>
+                    <td>{{ booking['description'] }}</td>
+                    <td>${{ booking['price'] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No bookings found.</p>
+    {% endif %}
+</section>
+{% endblock %}

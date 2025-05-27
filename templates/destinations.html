@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="destination-container">
+    <h1>Explore Our Destinations</h1>
+    <div class="destination-grid">
+        {% for destination in destinations %}
+        <div class="card">
+            <img src="{{ url_for('static', filename='images/' + destination['image']) }}" alt="{{ destination['name'] }}">
+            <h2>{{ destination['name'] }}</h2>
+            <p>{{ destination['description'] }}</p>
+            <p><strong>Price:</strong> ${{ destination['price'] }}</p>
+            <form method="POST" action="{{ url_for('book') }}">
+                <input type="hidden" name="destination" value="{{ destination['id'] }}">
+                <button type="submit">Book Now</button>
+            </form>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}
